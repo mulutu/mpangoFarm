@@ -1,0 +1,6 @@
+
+logs/farmGrow_app.log
+
+/target/
+*.jar
+*.log
