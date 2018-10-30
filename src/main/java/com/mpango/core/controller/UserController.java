@@ -147,6 +147,8 @@ public class UserController {
 		String Email = registerForm.getEmail();
 		String Username = registerForm.getEmail();
 		String Password = registerForm.getPassword();
+		
+		log.debug("UserController->registerUser():  Email {} ", Email);
 
 		String URL_REGISTER = "http://localhost:8084/MpangoFarmEngineApplication/api/register2/";
 
