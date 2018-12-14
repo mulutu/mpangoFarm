@@ -1,5 +1,7 @@
 package com.mpango.core.util;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -148,7 +150,13 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		
 		try{
 			authentication = securityContext.getAuthentication();
-			MyUser userDetails = (MyUser) authentication.getPrincipal();
+			
+			//LinkedHashMap<Integer, String> map = new LinkedHashMap<Integer, String>(); 
+			
+			log.error("UserInterceptor->getLoggedUserID() : >>>>  authentication.getPrincipal() >>> {} ",  authentication.getPrincipal() );
+			
+			MyUser userDetails = (MyUser) authentication.getPrincipal();			
+			
 			userId = userDetails.getId();
 		}catch(NullPointerException e) {
 			log.error("UserInterceptor->isAuthenticated() : >>>>  NO authentication " );

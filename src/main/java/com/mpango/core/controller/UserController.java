@@ -34,7 +34,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.mpango.core.model.Farm;
 import com.mpango.core.model.MyUser;
+import com.mpango.core.model.Project;
+import com.mpango.core.model.Supplier;
 import com.mpango.core.model.forms.LoginForm;
 import com.mpango.core.model.forms.RegisterForm;
 import com.mpango.core.util.UserInterceptor;
@@ -58,6 +61,16 @@ public class UserController {
 			log.error("UserController->dashboard() : >>>> NOOO authentication {}");
 			return "redirect:/user/login?error";
 		}
+		
+		int userID = UserInterceptor.getLoggedUserID();
+		
+		String URL_ALL_FARMS = "http://localhost:8084/MpangoFarmEngineApplication/api/farm/user/" + userID;		
+		Farm[] farms = restTemplate.getForObject(URL_ALL_FARMS, Farm[].class);
+		model.addAttribute("farms", farms);
+		
+		String URL_ALL_PROJECTS = "http://localhost:8084/MpangoFarmEngineApplication/api/financials/projects/user/" + userID;		
+		Project[] projects = restTemplate.getForObject(URL_ALL_PROJECTS, Project[].class);
+		model.addAttribute("projects", projects);
 		
 		return "dashboard";
 	}
@@ -110,7 +123,7 @@ public class UserController {
 				
 				MyUser userDetails = (MyUser) authentication.getPrincipal();
 				session.setAttribute("userDetails", userDetails);
-				//modelAndView.addObject("userDetails", userDetails);
+				modelAndView.addObject("userDetails", userDetails);
 
 				return "redirect:dashboard";
 			}
